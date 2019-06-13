@@ -1,0 +1,23 @@
+\clearpage
+\newpage
+\section{Introduction}
+\label{introduction}
+
+Next-generation sequencing (NGS) is being used successfully to
+identify clinically relevant genetic variants. However, studies have focused mainly
+on single nucleotide variants (SNVs), regulatory SNVs and small
+indels, while ignoring more complex types of variations. For example, the human genome contains Variable Number of Tandem Repeats (VNTRs) that are encompassing terms for DNA sequences
+repeated in tandem, and the number of repeats varies among individuals. These regions account for 3\% of the human genome, but are
+implicated in a disproportionately large number of Mendelian diseases
+that affect millions of people worldwide\cite{Brookes2013, Capurso2010, Lalioti1997}. Yet, these regions are mostly ignored due to computational challenges. Although existing computational tools recognize VNTR carrying sequence, genotyping VNTRs (determining repeat unit count and sequence variation) from whole-genome sequencing reads remains challenging. Traditionally, genotyping of these regions (counting the number of repeats of a locus for the individual) were done using gel-based methods which are highly time consuming and inefficient to do at large scale. Recently, a few computational methods have been published to tackle the problem of genotyping VNTRs from sequencing data \cite{Bakhtiari2018, Gelfand2014}. However, these methods are mainly focused on specific loci to be able to run efficiently and cannot be used for a genome-wide association study due to computational limitation.
+The pipelines for genotyping tandem repeat variations consist of the following steps: (a) Selecting the reads that contain information about the variations, (b) counting the number of repeats of the pattern, and (c) identifying variations within VNTR using the selected reads.
+One of the main challenges that limits the efficiency of computational methods that identify structural variations is read recruitment, which is the process of identifying the informative reads that contain information about the variation. Alignment tools such as Bowtie 2 are not suitable for this purpose as difference between the region in the sample and reference genome makes it hard to identify the reads from modified region. Hence, some tools use ad hoc methods for the specific types of variations. Currently, state-of-the-art methods for genotyping tandem repeats use graph alignments to identify these reads. These methods are known to be one the slowest part of the genotyping tools and sometimes take up to half of the running time of the genotyping process.
+
+In this paper, we aim to provide a solution to distinguish informative reads for each specific target locus of the genome in a cost-effective way. Our approach uses Neural Networks to select the reads that contain information about a specific VNTR region. Our proposed approach gains up to 200X speedup in this stage compare to sensitive methods without losing precision or sensitivity. Therefore, it would bring down the computational cost of genotyping by a factor of 2.
+
+\section{Related Work}
+Machine learning techniques are becoming ubiquitous in different area of Bioinformatics. They have been applied on wide range of Bioinformatics data (e.g. RNA-seq, ChIP-seq, and biological images) and for most of the cases, they have been applied on domains other than genomics (e.g. epigenomics and gene regulation, protein structure prediction, and biomarker discovery) \cite{Min2017deep, Angermueller2016, Ching2018, Zitnik2019}.
+
+On the genomics side and analysis of next generation sequencing data, recently there have been efforts on taking advantage of machine learning in metagenomics studies. 
+A fundamental problem in metagenomics is taxonomic binning, where each of the billions of sequenced reads must be assigned to a species. Busia et al. \yrcite{Busia2019} have shown that deep neural networks can be used to determine the species-of-origin for sequencing reads, replacing the common string matching and Hidden Markov Model-like pattern matching methods. Another study on taxonomic binning has shown that embedding the DNA reads based on their k-mers instead of directly comparing strings enables study of current large sequence data sets \cite{Menegaux2018}.
+Similar approach is being used in virus classification problem, where the goal is to identify whether a sequencing read belongs to a human cell or a virus genome. Lebatteux et al. \yrcite{Lebatteux2018} showed that alignment free methods based on k-mer composition of the reads can consistently outperform other classification methods and also achieve 95\% prediction accuracy on the complex cases.
